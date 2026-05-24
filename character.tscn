@@ -15,7 +15,7 @@ mesh = SubResource("CapsuleMesh_vu45j")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1727004444]
 shape = SubResource("CapsuleShape3D_vu45j")
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/CollisionShape3D" unique_id=1354606409]
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1354606409]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56986785, -0.45056328)
 current = true
 fov = 90.0
