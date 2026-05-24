@@ -1,22 +1,41 @@
 [gd_scene format=3 uid="uid://de35835dwpq62"]
 
 [ext_resource type="Script" uid="uid://dlhdwrajipxrw" path="res://player.gd" id="1_glpr6"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_vu45j"]
+[ext_resource type="Texture2D" uid="uid://c6hc03vr0kf2s" path="res://crosshair_black.png" id="2_pjt0s"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vu45j"]
+height = 1.5969238
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vu45j"]
 
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=1173876061]
 script = ExtResource("1_glpr6")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1154296533]
-mesh = SubResource("CapsuleMesh_vu45j")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1727004444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0010986328, 0)
 shape = SubResource("CapsuleShape3D_vu45j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1154296533]
+transform = Transform3D(1, 0, 0, 0, 0.8, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_vu45j")
 
 [node name="camera" type="Camera3D" parent="." unique_id=1354606409]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.56986785, -0.45056328)
 current = true
 fov = 90.0
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=712010589]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.375
+offset_top = -19.25
+offset_right = 34.375
+offset_bottom = 19.25
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_pjt0s")
+expand_mode = 1

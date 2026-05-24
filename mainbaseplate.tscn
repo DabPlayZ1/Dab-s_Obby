@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cbufwe0jfixl1"]
 
+[ext_resource type="Texture2D" uid="uid://pv84anoe7pgp" path="res://Z.png" id="1_pdwh7"]
 [ext_resource type="PackedScene" uid="uid://de35835dwpq62" path="res://character.tscn" id="1_unmaq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_unmaq"]
@@ -14,7 +15,13 @@ background_mode = 2
 sky = SubResource("Sky_pdwh7")
 tonemap_mode = 2
 
-[sub_resource type="BoxMesh" id="BoxMesh_87ffc"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unmaq"]
+albedo_color = Color(0.27022192, 0.27022192, 0.27022186, 1)
+albedo_texture = ExtResource("1_pdwh7")
+uv1_scale = Vector3(10, 7.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pdwh7"]
+material = SubResource("StandardMaterial3D_unmaq")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_unmaq"]
 
@@ -28,13 +35,13 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1956210291]
-transform = Transform3D(10, 0, 0, 0, -0.5, 8.742278e-07, 0, -4.371139e-08, -10, 0, 0, 0)
-mesh = SubResource("BoxMesh_87ffc")
+transform = Transform3D(25, 0, 0, 0, -0.5, 3.774895e-06, 0, -7.54979e-08, -25, 0, 0, 0)
+mesh = SubResource("BoxMesh_pdwh7")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=11802865]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1632492787]
 shape = SubResource("BoxShape3D_unmaq")
 
-[node name="Character" parent="." unique_id=416415331 instance=ExtResource("1_unmaq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7920145, 0.25770295, 1.1514249)
+[node name="CharacterBody3D" parent="." unique_id=1173876061 instance=ExtResource("1_unmaq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.779, 1.13, -0.03)
