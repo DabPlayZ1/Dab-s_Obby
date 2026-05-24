@@ -2,8 +2,8 @@ extends CharacterBody3D
 var sensitivity = 0.5
 var captured = true
 var speed = 10
-var jumpheight = 5
-var gravity = 10
+var jumpheight = 33
+var gravity = 100
 # Camera Movement
 
 func _ready() -> void:
@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 	velocity.x = local_movement.x * speed
 	velocity.z = local_movement.z * speed
 	velocity.y -= gravity * delta
-	if Input.is_action_just_pressed("Jump") and is_on_floor():
+	if Input.is_action_pressed("Jump") and is_on_floor():
 			velocity.y += jumpheight
 	
 	move_and_slide()
