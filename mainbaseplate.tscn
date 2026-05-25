@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://pv84anoe7pgp" path="res://Z.png" id="1_pdwh7"]
 [ext_resource type="PackedScene" uid="uid://de35835dwpq62" path="res://character.tscn" id="1_unmaq"]
+[ext_resource type="Script" uid="uid://bi6v1yl2wcmku" path="res://fall.gd" id="3_ha1rx"]
+[ext_resource type="Texture2D" uid="uid://chxfdfapnxwcv" path="res://crosswhite.png" id="4_3q5vj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_unmaq"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -16,7 +18,7 @@ sky = SubResource("Sky_pdwh7")
 tonemap_mode = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unmaq"]
-albedo_color = Color(0.27022192, 0.27022192, 0.27022186, 1)
+albedo_color = Color(0.30987185, 0.7713683, 0.34046468, 1)
 albedo_texture = ExtResource("1_pdwh7")
 uv1_scale = Vector3(10, 7.5, 1)
 
@@ -24,6 +26,8 @@ uv1_scale = Vector3(10, 7.5, 1)
 material = SubResource("StandardMaterial3D_unmaq")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_unmaq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3q5vj"]
 
 [node name="Node3D" type="Node3D" unique_id=1289119348]
 
@@ -43,5 +47,65 @@ mesh = SubResource("BoxMesh_pdwh7")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1632492787]
 shape = SubResource("BoxShape3D_unmaq")
 
-[node name="CharacterBody3D" parent="." unique_id=1173876061 instance=ExtResource("1_unmaq")]
+[node name="Player" parent="." unique_id=1173876061 instance=ExtResource("1_unmaq")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.779, 1.13, -0.03)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=240322111]
+transform = Transform3D(44229.004, 0, 0, 0, -72.70551, 0.008748181, 0, -1.0978228e-05, -57936.586, 0, -96.82854, 4.140358e-06)
+script = ExtResource("3_ha1rx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=427270993]
+shape = SubResource("BoxShape3D_3q5vj")
+
+[node name="Respawn" type="Button" parent="." unique_id=1834766213]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 43.0
+offset_right = 67.0
+offset_bottom = 88.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+disabled = true
+text = "Respawn"
+expand_icon = true
+
+[node name="Cursor" type="TextureRect" parent="." unique_id=1312996825]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -226.0
+offset_top = -224.0
+offset_right = 229.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_3q5vj")
+expand_mode = 1
+
+[node name="Died" type="Label" parent="." unique_id=559108330]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 180.0
+offset_right = 20.0
+offset_bottom = 203.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "You died"
+
+[connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]

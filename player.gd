@@ -1,9 +1,12 @@
 extends CharacterBody3D
-var sensitivity = 0.5
-var captured = true
-var speed = 10
-var jumpheight = 33
-var gravity = 100
+var sensitivity : float = 0.5
+@export var captured : bool = true
+var speed : int = 10
+var acceleration : int  = 70
+var jumpheight : int = 33
+var gravity : int = 100
+var coyotetimer : float = 0.0
+var coyotetime : float = 0.1
 # Camera Movement
 
 func _ready() -> void:
@@ -32,13 +35,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		print(sensitivity)
 
 func _physics_process(delta: float) -> void:
-	var directions := Input.get_vector("Move_Left", "Move_Right", "Move_Forward", "Move_Backwards")
-	var movement := Vector3(directions.x, 0, directions.y)
-	var local_movement = transform.basis * movement
-	velocity.x = local_movement.x * speed
-	velocity.z = local_movement.z * speed
+	var directions : Vector2 = Input.get_vector("Move_Left", "Move_Right", "Move_Forward", "Move_Backwards")
+	var movement : Vector3 = Vector3(directions.x, 0, directions.y).normalized()
+	var local_movement : Vector3 = transform.basis * movement
+	#velocity.x += local_movement.x * speed * delta
+	#velocity.x = clamp(velocity.x, -speed, speed)
+	#velocity.z += local_movement.z * speed * delta
+	#velocity.z = clamp(velocity.z, -speed, speed)
+	velocity.x = move_toward(velocity.x, local_movement.x*speed, acceleration*delta)
+	velocity.z = move_toward(velocity.z, local_movement.z*speed, acceleration*delta)
 	velocity.y -= gravity * delta
-	if Input.is_action_pressed("Jump") and is_on_floor():
+	if is_on_floor():
+		coyotetimer = 0.0
+	else:
+		coyotetimer += delta
+	if Input.is_action_just_pressed("Jump") and (is_on_floor() or coyotetimer <= coyotetime):
 			velocity.y += jumpheight
 	
 	move_and_slide()
