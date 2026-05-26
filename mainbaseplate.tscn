@@ -1,13 +1,20 @@
 [gd_scene format=3 uid="uid://cbufwe0jfixl1"]
 
+[ext_resource type="Material" uid="uid://c16o6bd3pwfcx" path="res://greenplatform.tres" id="1_eqmpd"]
 [ext_resource type="Texture2D" uid="uid://pv84anoe7pgp" path="res://Z.png" id="1_pdwh7"]
 [ext_resource type="PackedScene" uid="uid://de35835dwpq62" path="res://character.tscn" id="1_unmaq"]
 [ext_resource type="Script" uid="uid://bi6v1yl2wcmku" path="res://fall.gd" id="3_ha1rx"]
 [ext_resource type="Texture2D" uid="uid://chxfdfapnxwcv" path="res://crosswhite.png" id="4_3q5vj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_unmaq"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+sky_top_color = Color(0.25496092, 0.55878866, 0.6840986, 1)
+sky_horizon_color = Color(0.2942444, 0.78794765, 0.99999994, 1)
+sky_curve = 0.25
+sky_energy_multiplier = 0.95
+ground_bottom_color = Color(0.11481937, 0.5389726, 0.91146564, 1)
+ground_horizon_color = Color(0.29411766, 0.7882353, 1, 1)
+ground_curve = 0.15
+ground_energy_multiplier = 0.95
 
 [sub_resource type="Sky" id="Sky_pdwh7"]
 sky_material = SubResource("ProceduralSkyMaterial_unmaq")
@@ -17,15 +24,18 @@ background_mode = 2
 sky = SubResource("Sky_pdwh7")
 tonemap_mode = 2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_unmaq"]
-albedo_color = Color(0.30987185, 0.7713683, 0.34046468, 1)
-albedo_texture = ExtResource("1_pdwh7")
-uv1_scale = Vector3(10, 7.5, 1)
-
 [sub_resource type="BoxMesh" id="BoxMesh_pdwh7"]
-material = SubResource("StandardMaterial3D_unmaq")
+material = ExtResource("1_eqmpd")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_unmaq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rd6ri"]
+albedo_color = Color(0.30987185, 0.7713683, 0.34046468, 1)
+albedo_texture = ExtResource("1_pdwh7")
+uv1_scale = Vector3(5, 10, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o1uui"]
+material = SubResource("StandardMaterial3D_rd6ri")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3q5vj"]
 
@@ -45,6 +55,15 @@ mesh = SubResource("BoxMesh_pdwh7")
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=11802865]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=1632492787]
+shape = SubResource("BoxShape3D_unmaq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=132689398]
+transform = Transform3D(2, 0, 0, 0, -0.25, 1.1324685e-06, 0, -3.774895e-08, -7.5, 16.393497, 1.5476955, 2.3369552e-07)
+mesh = SubResource("BoxMesh_o1uui")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2" unique_id=1689338940]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D" unique_id=1361472196]
 shape = SubResource("BoxShape3D_unmaq")
 
 [node name="Player" parent="." unique_id=1173876061 instance=ExtResource("1_unmaq")]
@@ -108,4 +127,14 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 32
 text = "You died"
 
+[node name="Label3D" type="Label3D" parent="." unique_id=1236912103]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 10.975391, 6.1841335, 0.16856813)
+visibility_range_end = 50.0
+pixel_size = 0.02
+billboard = 2
+double_sided = false
+text = "Press Q to Dash"
+font_size = 64
+
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
+[connection signal="pressed" from="Respawn" to="Area3D" method="_on_respawn_pressed"]
