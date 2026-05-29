@@ -9,7 +9,10 @@ var coyotetimer : float = 0.0
 var coyotetime : float = 0.09
 var jumpbuffer : float = 0.09
 var jumpbuffertimer :float = 1.0   
-var jumped = false
+var jumped : bool = false
+var dashspeed : int = 30
+var dashed : bool = false
+var dashtimer : float = 0.0
 # Camera Movement
 
 func _ready() -> void:
@@ -55,8 +58,6 @@ func _physics_process(delta: float) -> void:
 		coyotetimer += delta
 	jumpbuffertimer += delta
 	if Input.is_action_just_pressed("Jump") and jumped == false and (is_on_floor() or coyotetimer <= coyotetime):
-		if coyotetimer < coyotetime and coyotetimer > 0:
-			print("coyote")
 		velocity.y = jumpheight
 		jumped = true
 	elif is_on_floor() and jumpbuffertimer <= jumpbuffer:
@@ -64,6 +65,10 @@ func _physics_process(delta: float) -> void:
 		jumped = true
 	elif Input.is_action_just_pressed("Jump"):
 		jumpbuffertimer = 0.0
-	
+	if Input.is_action_just_pressed("Dash"):
+		var vec = Vector3(0,0,-1)
+		var dir = transform.basis * vec
+		velocity.z += dir.z * dashspeed
+		velocity.x += dir.x * dashspeed
 	move_and_slide()
 	
