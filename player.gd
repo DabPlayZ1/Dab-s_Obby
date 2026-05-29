@@ -65,10 +65,30 @@ func _physics_process(delta: float) -> void:
 		jumped = true
 	elif Input.is_action_just_pressed("Jump"):
 		jumpbuffertimer = 0.0
-	if Input.is_action_just_pressed("Dash"):
+	
+	## VELOCITY BOOST + GRAVITY PAUSE DASH
+	if Input.is_action_just_pressed("Dash") and dashed == false:
 		var vec = Vector3(0,0,-1)
 		var dir = transform.basis * vec
 		velocity.z += dir.z * dashspeed
 		velocity.x += dir.x * dashspeed
+		dashtimer = 0.0
+		dashed = true
+	dashtimer += delta
+	if dashtimer > 0.7:
+		dashed = false	
+	elif dashtimer <= 0.25:
+		velocity.y = clamp(velocity.y, 0, INF)
+		
+	## SPEED DASH
+	#if Input.is_action_just_pressed("Dash") and dashed == false:
+		#speed = 25
+		#dashtimer = 0.0
+		#dashed = true
+	#dashtimer += delta
+	#if dashtimer > 0.7:
+		#dashed = false
+	#elif dashtimer >= 0.2:
+		#speed = 10
 	move_and_slide()
 	
